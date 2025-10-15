@@ -10,13 +10,20 @@ def main():
     while True:
         try:
             buf, source = udp_socket.recvfrom(512)
-
-            response = b""
+            print(f"Received {buf} from {source}")
+            response = b"Hi\n"
 
             udp_socket.sendto(response, source)
+
+            if buf == b"exit\n":
+                print("Exiting\n")
+                break
         except Exception as e:
             print(f"Error receiving data: {e}")
             break
+
+    print("Shutting down")
+    udp_socket.close()
 
 
 if __name__ == "__main__":
