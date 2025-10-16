@@ -1,5 +1,7 @@
 import socket
 
+from app.dns_header import DNSHeader, QueryResponseValue
+
 
 def main():
     print("Starting up Server!")
@@ -10,10 +12,25 @@ def main():
     while True:
         try:
             buf, source = udp_socket.recvfrom(512)
-            print(f"Received {buf} from {source}")
-            response = b"Hi\n"
+            print(f"Received {buf} from {source}\n")
 
-            udp_socket.sendto(response, source)
+            header = DNSHeader(
+                identifier=1234,
+                query_response_indicator=QueryResponseValue.Reply,
+                operation_code=0,
+                authoritative_answer=True,
+                truncation=False,
+                recursion_desired=False,
+                recursion_available=False,
+                reserved=0,
+                response_code=0,
+                question_count=0,
+                answer_count=0,
+                authority_record_count=0,
+                additional_record_count=0
+            )
+
+            udp_socket.sendto(header.to_bytes(), source)
 
             if buf == b"exit\n":
                 print("Exiting\n")

@@ -5,11 +5,15 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+test = "pytest --no-header --no-summary -v"
+
 [packages]
 pyparsing = "~=3.0"
 lark = "~=1.1"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3"
