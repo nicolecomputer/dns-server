@@ -53,3 +53,10 @@ class DNSHeader:
         data.extend(self.additional_record_count.to_bytes(2, byteorder='big'))
 
         return data
+
+    def __str__(self):
+        return (
+            f"ID: {self.identifier}, QR: {self.query_response_indicator}, OPCODE: {self.operation_code}, AA: {self.authoritative_answer}, "
+            f"TC: {self.truncation}, RD: {self.recursion_desired}, RA: {self.recursion_available}, Z: {self.reserved}, RCODE: {self.response_code}, "
+            f"QDCOUNT: {self.question_count}, ANCOUNT: {self.answer_count}, NSCOUNT: {self.authority_record_count}, ARCOUNT: {self.additional_record_count}"
+        )

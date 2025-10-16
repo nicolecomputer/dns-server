@@ -29,7 +29,7 @@ def main():
                 authority_record_count=0,
                 additional_record_count=0
             )
-
+            print(header)
             udp_socket.sendto(header.to_bytes(), source)
 
             if buf == b"exit\n":
