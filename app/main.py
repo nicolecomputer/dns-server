@@ -18,7 +18,7 @@ def main():
                 identifier=1234,
                 query_response_indicator=QueryResponseValue.Reply,
                 operation_code=0,
-                authoritative_answer=True,
+                authoritative_answer=False,
                 truncation=False,
                 recursion_desired=False,
                 recursion_available=False,
