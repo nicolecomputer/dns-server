@@ -39,10 +39,12 @@ def main():
             ]
 
             print(header)
-            print(questions)
-
             udp_socket.sendto(header.to_bytes(), source)
-            [udp_socket.sendto(question.to_bytes(), source) for question in questions]
+
+            for question in questions:
+                print(question)
+                udp_socket.sendto(question.to_bytes(), source)
+
             print()
 
             if buf == b"exit\n":
