@@ -2,6 +2,7 @@ import socket
 
 from app.dns_header import DNSHeader, QueryResponseValue
 from app.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
+from app.dns_message import DNSMessage
 
 
 def main():
@@ -15,37 +16,34 @@ def main():
             buf, source = udp_socket.recvfrom(512)
             print(f"Received {buf} from {source}\n")
 
-            header = DNSHeader(
-                identifier=1234,
-                query_response_indicator=QueryResponseValue.Reply,
-                operation_code=0,
-                authoritative_answer=False,
-                truncation=False,
-                recursion_desired=False,
-                recursion_available=False,
-                reserved=0,
-                response_code=0,
-                question_count=1,
-                answer_count=0,
-                authority_record_count=0,
-                additional_record_count=0
+            message = DNSMessage(
+                header=DNSHeader(
+                    identifier=1234,
+                    query_response_indicator=QueryResponseValue.Reply,
+                    operation_code=0,
+                    authoritative_answer=False,
+                    truncation=False,
+                    recursion_desired=False,
+                    recursion_available=False,
+                    reserved=0,
+                    response_code=0,
+                    question_count=1,
+                    answer_count=0,
+                    authority_record_count=0,
+                    additional_record_count=0,
+                ),
+                questions=[
+                    DNSQuestion(
+                        name="codecrafters.io",
+                        question_class=DNSQuestionClass.IN,
+                        question_type=DNSQuestionType.A,
+                    )
+                ],
             )
-            questions = [
-                DNSQuestion(
-                    name="codecrafters.io",
-                    question_class=DNSQuestionClass.IN,
-                    question_type=DNSQuestionType.A
-                )
-            ]
 
-            bytes_to_send = header.to_bytes()
-            print(header)
 
-            for question in questions:
-                print(question)
-                bytes_to_send += question.to_bytes()
-
-            udp_socket.sendto(bytes_to_send, source)
+            print(message)
+            udp_socket.sendto(message.to_bytes(), source)
             print()
 
             if buf == b"exit\n":
