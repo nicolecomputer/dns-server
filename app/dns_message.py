@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from dns_header import DNSHeader
-from dns_question import DNSQuestion
+from app.dns_header import DNSHeader
+from app.dns_question import DNSQuestion
 
 @dataclass
 class DNSMessage:
