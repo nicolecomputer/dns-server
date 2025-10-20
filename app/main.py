@@ -1,6 +1,7 @@
 import socket
 
 from app.dns_header import DNSHeader, QueryResponseValue
+from app.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
 
 
 def main():
@@ -29,8 +30,20 @@ def main():
                 authority_record_count=0,
                 additional_record_count=0
             )
+            questions = [
+                DNSQuestion(
+                    name="codecrafters.io",
+                    question_class=DNSQuestionClass.IN,
+                    question_type=DNSQuestionType.A
+                )
+            ]
+
             print(header)
+            print(questions)
+
             udp_socket.sendto(header.to_bytes(), source)
+            [udp_socket.sendto(question.to_bytes(), source) for question in questions]
+            print()
 
             if buf == b"exit\n":
                 print("Exiting\n")
