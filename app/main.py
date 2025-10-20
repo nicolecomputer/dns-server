@@ -1,8 +1,8 @@
 import socket
 
-from app.dns_header import DNSHeader, QueryResponseValue
-from app.dns_message import DNSMessage
-from app.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
+from app.protocol.dns_header import DNSHeader, QueryResponseValue
+from app.protocol.dns_message import DNSMessage
+from app.protocol.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
 
 def main():
     print("Starting up Server!")
