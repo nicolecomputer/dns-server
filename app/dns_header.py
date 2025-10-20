@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import IntEnum
+import bitstruct # type: ignore
 
 class QueryResponseValue(IntEnum):
     Question = 0
@@ -7,6 +8,23 @@ class QueryResponseValue(IntEnum):
 
 @dataclass
 class DNSHeader:
+    """
+    DNS Header Format:
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                      ID                       |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |QR|   Opcode  |AA|TC|RD|RA|Z|AD|CD|    RCODE   |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    QDCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    ANCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    NSCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    ARCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    """
+
     identifier: int # 16 bits
 
     query_response_indicator: QueryResponseValue # 1 bit
@@ -14,7 +32,6 @@ class DNSHeader:
     authoritative_answer: bool # 1 bit
     truncation: bool # 1 bit
     recursion_desired: bool # 1 bit
-
     recursion_available: bool #1 bit
     reserved: int #3 bits
     response_code: int # 4 bits (probably an enum later)
@@ -28,29 +45,23 @@ class DNSHeader:
     additional_record_count: int # 16 bits
 
     def to_bytes(self):
-        data = bytearray()
-        data.extend(self.identifier.to_bytes(2, byteorder='big'))
+        qr = int(self.query_response_indicator)
+        opcode = int(self.operation_code)
+        aa = int(self.authoritative_answer)
+        tc = int(self.truncation)
+        rd = int(self.recursion_desired)
+        ra = int(self.recursion_available)
+        z = int(self.reserved)
+        rcode = int(self.response_code)
 
-        qr_data = int(self.query_response_indicator)
-        opcode_data = int(self.operation_code)
-        aa_data = int(self.authoritative_answer)
-        tc_data = int(self.truncation)
-        rd_data = int(self.recursion_desired)
-
-        byte2 = (qr_data << 7) | (opcode_data << 3) | (aa_data << 2) | (tc_data << 1) | rd_data
-        data.append(byte2)
-
-        ra_data = int(self.recursion_available)
-        z_data = int(self.reserved)
-        rcode_data = int(self.response_code)
-
-        byte3 = (ra_data << 7) | (z_data << 4) | rcode_data
-        data.append(byte3)
-
-        data.extend(self.question_count.to_bytes(2, byteorder='big'))
-        data.extend(self.answer_count.to_bytes(2, byteorder='big'))
-        data.extend(self.authority_record_count.to_bytes(2, byteorder='big'))
-        data.extend(self.additional_record_count.to_bytes(2, byteorder='big'))
+        data = bitstruct.pack(
+            'u16u1u4u1u1u1u1u3u4u16u16u16u16',
+            self.identifier,
+            qr, opcode, aa, tc, rd, ra, z, rcode,
+            self.question_count,
+            self.answer_count,
+            self.authority_record_count,
+            self.additional_record_count)
 
         return data
 
