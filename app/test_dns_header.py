@@ -1,4 +1,4 @@
-from dns_header import DNSHeader, QueryResponseValue
+from app.protocol.dns_header import DNSHeader, QueryResponseValue
 
 def test_building_a_header():
 
