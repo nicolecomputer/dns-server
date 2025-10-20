@@ -25,7 +25,7 @@ def main():
                 recursion_available=False,
                 reserved=0,
                 response_code=0,
-                question_count=0,
+                question_count=1,
                 answer_count=0,
                 authority_record_count=0,
                 additional_record_count=0
@@ -38,13 +38,14 @@ def main():
                 )
             ]
 
+            bytes_to_send = header.to_bytes()
             print(header)
-            udp_socket.sendto(header.to_bytes(), source)
 
             for question in questions:
                 print(question)
-                udp_socket.sendto(question.to_bytes(), source)
+                bytes_to_send += question.to_bytes()
 
+            udp_socket.sendto(bytes_to_send, source)
             print()
 
             if buf == b"exit\n":
