@@ -1,8 +1,9 @@
+import pprint
 import socket
 
-from app.protocol.dns_header import DNSHeader, QueryResponseValue
 from app.protocol.dns_message import DNSMessage
-from app.protocol.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
+
+from app.handler import handle_dns_query
 
 def main():
     print("Starting up Server!")
@@ -13,36 +14,14 @@ def main():
     while True:
         try:
             buf, source = udp_socket.recvfrom(512)
-            print(f"Received {buf} from {source}\n")
 
-            message = DNSMessage(
-                header=DNSHeader(
-                    identifier=1234,
-                    query_response_indicator=QueryResponseValue.Reply,
-                    operation_code=0,
-                    authoritative_answer=False,
-                    truncation=False,
-                    recursion_desired=False,
-                    recursion_available=False,
-                    reserved=0,
-                    response_code=0,
-                    question_count=1,
-                    answer_count=0,
-                    authority_record_count=0,
-                    additional_record_count=0,
-                ),
-                questions=[
-                    DNSQuestion(
-                        name="codecrafters.io",
-                        question_class=DNSQuestionClass.IN,
-                        question_type=DNSQuestionType.A,
-                    )
-                ],
-            )
-
-
-            print(message)
-            udp_socket.sendto(message.to_bytes(), source)
+            request = DNSMessage.from_bytes(buf)
+            response = handle_dns_query(request)
+            print("REQUEST: ")
+            pprint.pp(request.__dict__, width=100, indent=1)
+            print("RESPONSE: ")
+            pprint.pp(response.__dict__, width=100, indent=1)
+            udp_socket.sendto(response.to_bytes(), source)
             print()
 
             if buf == b"exit\n":

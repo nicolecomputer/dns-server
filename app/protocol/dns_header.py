@@ -65,6 +65,33 @@ class DNSHeader:
 
         return data
 
+    @classmethod
+    def from_bytes(cls, data: bytes) -> 'DNSHeader':
+        unpacked = bitstruct.unpack(
+            'u16u1u4u1u1u1u1u3u4u16u16u16u16',
+            data[:12]
+        )
+
+        # Destructure the tuple
+        (identifier, qr, opcode, aa, tc, rd, ra, z, rcode,
+        qdcount, ancount, nscount, arcount) = unpacked
+
+        return DNSHeader(
+            identifier=identifier,
+            query_response_indicator=QueryResponseValue(qr),
+            operation_code=opcode,
+            authoritative_answer=bool(aa),
+            truncation=bool(tc),
+            recursion_desired=bool(rd),
+            recursion_available=bool(ra),
+            reserved=z,
+            response_code=rcode,
+            question_count=qdcount,
+            answer_count=ancount,
+            authority_record_count=nscount,
+            additional_record_count=arcount
+        )
+
     def __str__(self):
         return (
             f"ID: {self.identifier}, QR: {self.query_response_indicator}, OPCODE: {self.operation_code}, AA: {self.authoritative_answer}, "
