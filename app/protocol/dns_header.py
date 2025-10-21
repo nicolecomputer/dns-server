@@ -114,24 +114,17 @@ class DNSHeader:
         ) = unpacked
 
         return DNSHeader(
-            identifier=identifier,
-            query_response_indicator=QueryResponseValue(qr),
-            operation_code=opcode,
+            identifier=int(identifier),
+            query_response_indicator=QueryResponseValue(int(qr)),
+            operation_code=QueryOpcode(int(opcode)),
             authoritative_answer=bool(aa),
             truncation=bool(tc),
             recursion_desired=bool(rd),
             recursion_available=bool(ra),
-            reserved=z,
-            response_code=rcode,
-            question_count=qdcount,
-            answer_count=ancount,
-            authority_record_count=nscount,
-            additional_record_count=arcount,
-        )
-
-    def __str__(self):
-        return (
-            f"ID: {self.identifier}, QR: {self.query_response_indicator}, OPCODE: {self.operation_code}, AA: {self.authoritative_answer}, "
-            f"TC: {self.truncation}, RD: {self.recursion_desired}, RA: {self.recursion_available}, Z: {self.reserved}, RCODE: {self.response_code}, "
-            f"QDCOUNT: {self.question_count}, ANCOUNT: {self.answer_count}, NSCOUNT: {self.authority_record_count}, ARCOUNT: {self.additional_record_count}"
+            reserved=int(z),
+            response_code=ResponseOpcode(int(rcode)),
+            question_count=int(qdcount),
+            answer_count=int(ancount),
+            authority_record_count=int(nscount),
+            additional_record_count=int(arcount),
         )
