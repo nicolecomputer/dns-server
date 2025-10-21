@@ -11,5 +11,9 @@
   "files.exclude": {
     "**/Cellar/**": true,
     "**/Frameworks/**": true
-  }
+  },
+  "python.defaultInterpreterPath": "pipenv",
+  "python.testing.pytestArgs": ["app"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
