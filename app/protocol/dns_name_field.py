@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from app.protocol.util import encode_label, NULL_BYTE
 
+
 @dataclass
 class DNSNameField:
     name: str
@@ -12,4 +13,4 @@ class DNSNameField:
         labels = self.name.split(".")
         encoded_labels = [encode_label(label) for label in labels]
 
-        return b''.join(encoded_labels) + NULL_BYTE
+        return b"".join(encoded_labels) + NULL_BYTE

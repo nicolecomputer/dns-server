@@ -24,7 +24,9 @@ def answer_dns_question(
     return [record.to_dns_answer() for record in records]
 
 
-def is_authoritative(known_records: list[DNSRecord], questions: list[DNSQuestion]) -> bool:
+def is_authoritative(
+    known_records: list[DNSRecord], questions: list[DNSQuestion]
+) -> bool:
     for question in questions:
         records = find_records(known_records, name=question.name)
         if len(records) == 0:
@@ -54,6 +56,7 @@ def not_implemented_response_from(request: DNSRequest) -> DNSResponse:
         answers=[],
     )
 
+
 def refused_response_from(request: DNSRequest) -> DNSResponse:
     return DNSResponse(
         header=DNSHeader(
@@ -76,17 +79,19 @@ def refused_response_from(request: DNSRequest) -> DNSResponse:
     )
 
 
-
-def handle_dns_query(known_records: list[DNSRecord], request: DNSRequest) -> DNSResponse:
+def handle_dns_query(
+    known_records: list[DNSRecord], request: DNSRequest
+) -> DNSResponse:
     if request.header.operation_code != QueryOpcode.Query:
         return not_implemented_response_from(request=request)
 
     questions = request.questions
-    is_authoritative_for_records = is_authoritative(known_records=known_records, questions=questions)
+    is_authoritative_for_records = is_authoritative(
+        known_records=known_records, questions=questions
+    )
 
     if not is_authoritative_for_records:
         return refused_response_from(request=request)
-
 
     answers = []
     for question in questions:

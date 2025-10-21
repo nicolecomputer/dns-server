@@ -1,4 +1,11 @@
-from app.protocol.dns_header import DNSHeader, QueryResponseValue, QueryOpcode, ResponseOpcode
+from app.protocol.dns_header import (
+    DNSHeader,
+    QueryResponseValue,
+    QueryOpcode,
+    ResponseOpcode,
+)
+
+
 def test_building_a_header():
 
     header = DNSHeader(
@@ -14,8 +21,8 @@ def test_building_a_header():
         question_count=0,
         answer_count=0,
         authority_record_count=0,
-        additional_record_count=0
+        additional_record_count=0,
     )
     data = header.to_bytes()
 
-    assert data.hex() == '04d284000000000000000000'
+    assert data.hex() == "04d284000000000000000000"

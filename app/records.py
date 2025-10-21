@@ -33,11 +33,10 @@ def find_records(
     for record in records:
         isValid = record.name == name
 
-        if (record_type is not None and record.record_type != record_type):
+        if record_type is not None and record.record_type != record_type:
             isValid = False
 
         if isValid:
             found.append(record)
 
     return found
-

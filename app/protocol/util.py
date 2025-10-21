@@ -1,4 +1,5 @@
-NULL_BYTE = b'\x00'
+NULL_BYTE = b"\x00"
+
 
 def encode_label(label: str) -> bytes:
     encoded = label.encode("ascii")

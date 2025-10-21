@@ -6,6 +6,7 @@ from app.records import DNSRecord
 from app.protocol.ip_address import IPAddress
 from app.protocol.dns_record_type import DNSRecordType
 
+
 def main() -> None:
     print("Starting up Server!")
 
@@ -19,7 +20,6 @@ def main() -> None:
     ]
 
     print("Known Records", known_records)
-
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_socket.bind(("127.0.0.1", 2053))
