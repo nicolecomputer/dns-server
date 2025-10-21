@@ -17,10 +17,10 @@ def main():
 
             request = DNSMessage.from_bytes(buf)
             response = handle_dns_query(request)
-            print("REQUEST: ")
-            pprint.pp(request.__dict__, width=100, indent=1)
-            print("RESPONSE: ")
-            pprint.pp(response.__dict__, width=100, indent=1)
+            # print("REQUEST: ")
+            # pprint.pp(request.__dict__, width=100, indent=1)
+            # print("RESPONSE: ")
+            # pprint.pp(response.__dict__, width=100, indent=1)
             udp_socket.sendto(response.to_bytes(), source)
             print()
 
