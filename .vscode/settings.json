@@ -1,3 +1,15 @@
 {
-  "python.analysis.typeCheckingMode": "standard"
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.ignore": [
+    "**/site-packages/**",
+    "**/Frameworks/**",
+    "**/Cellar/**",
+    "**/lib/python*/**",
+    "**/.venv/**"
+  ],
+  "files.exclude": {
+    "**/Cellar/**": true,
+    "**/Frameworks/**": true
+  }
 }
