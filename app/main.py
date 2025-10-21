@@ -1,7 +1,8 @@
 import socket
 
 from app.protocol.dns_message import DNSMessage
-from app.handler import handle_dns_query, DNSRecord
+from app.handler import handle_dns_query
+from app.records import DNSRecord
 from app.protocol.ip_address import IPAddress
 from app.protocol.dns_record_type import DNSRecordType
 
