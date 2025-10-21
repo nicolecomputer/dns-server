@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+
+from app.protocol.dns_answer import DNSAnswer
 from app.protocol.dns_header import DNSHeader
 from app.protocol.dns_question import DNSQuestion, DNSRecordClass
 from app.protocol.dns_record_type import DNSRecordType
-from app.protocol.dns_answer import DNSAnswer
 
 
 def parse_header(starting_position: int, data: bytes) -> tuple[DNSHeader, int]:

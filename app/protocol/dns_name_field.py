@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from app.protocol.util import encode_label, NULL_BYTE
+
+from app.protocol.util import NULL_BYTE, encode_label
 
 
 @dataclass

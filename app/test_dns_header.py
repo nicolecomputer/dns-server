@@ -1,7 +1,7 @@
 from app.protocol.dns_header import (
     DNSHeader,
-    QueryResponseValue,
     QueryOpcode,
+    QueryResponseValue,
     ResponseOpcode,
 )
 

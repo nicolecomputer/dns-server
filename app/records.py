@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
+
 from app.protocol.dns_answer import DNSAnswer
 from app.protocol.dns_record_class import DNSRecordClass
 from app.protocol.dns_record_type import DNSRecordType

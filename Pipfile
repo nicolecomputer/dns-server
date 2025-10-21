@@ -16,6 +16,7 @@ bitstruct = "*"
 [dev-packages]
 pytest = "*"
 black = "*"
+isort = "*"
 
 [requires]
 python_version = "3"

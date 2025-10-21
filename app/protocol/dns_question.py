@@ -1,7 +1,8 @@
 from dataclasses import dataclass
+
 from app.protocol.dns_name_field import DNSNameField
-from app.protocol.dns_record_type import DNSRecordType
 from app.protocol.dns_record_class import DNSRecordClass
+from app.protocol.dns_record_type import DNSRecordType
 
 
 @dataclass

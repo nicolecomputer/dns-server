@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import IntEnum
+
 import bitstruct  # type: ignore
 
 

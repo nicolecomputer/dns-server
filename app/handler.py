@@ -1,14 +1,13 @@
-from app.protocol.dns_message import DNSMessage
+from app.protocol.dns_answer import DNSAnswer
 from app.protocol.dns_header import (
     DNSHeader,
-    QueryResponseValue,
     QueryOpcode,
+    QueryResponseValue,
     ResponseOpcode,
 )
-from app.protocol.dns_answer import DNSAnswer
+from app.protocol.dns_message import DNSMessage
 from app.protocol.dns_question import DNSQuestion
 from app.records import DNSRecord, find_records
-
 
 DNSRequest = DNSMessage
 DNSResponse = DNSMessage
