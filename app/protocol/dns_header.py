@@ -86,10 +86,6 @@ class DNSHeader:
             'u16u1u4u1u1u1u1u3u4u16u16u16u16',
             data[:12]
         )
-
-        print(f"Unpacked values: {unpacked}")
-        print(f"RCODE value: {unpacked[8]}")
-
         # Destructure the tuple
         (identifier, qr, opcode, aa, tc, rd, ra, z, rcode,
         qdcount, ancount, nscount, arcount) = unpacked

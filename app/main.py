@@ -1,12 +1,24 @@
-import pprint
 import socket
 
 from app.protocol.dns_message import DNSMessage
-
-from app.handler import handle_dns_query
+from app.handler import handle_dns_query, DNSRecord
+from app.protocol.ip_address import IPAddress
+from app.protocol.dns_record_type import DNSRecordType
 
 def main():
     print("Starting up Server!")
+
+    known_records: list[DNSRecord] = [
+        DNSRecord(
+            name="codecrafters.in",
+            record_type=DNSRecordType.A,
+            time_to_live=60,
+            data=IPAddress(8, 8, 8, 8),
+        ),
+    ]
+
+    print("Known Records", known_records)
+
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_socket.bind(("127.0.0.1", 2053))
@@ -16,11 +28,8 @@ def main():
             buf, source = udp_socket.recvfrom(512)
 
             request = DNSMessage.from_bytes(buf)
-            response = handle_dns_query(request)
-            # print("REQUEST: ")
-            # pprint.pp(request.__dict__, width=100, indent=1)
-            # print("RESPONSE: ")
-            # pprint.pp(response.__dict__, width=100, indent=1)
+            response = handle_dns_query(known_records=known_records, request=request)
+
             udp_socket.sendto(response.to_bytes(), source)
             print()
 
