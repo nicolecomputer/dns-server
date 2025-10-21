@@ -54,12 +54,39 @@ def not_implemented_response_from(request: DNSRequest) -> DNSResponse:
         answers=[],
     )
 
+def refused_response_from(request: DNSRequest) -> DNSResponse:
+    return DNSResponse(
+        header=DNSHeader(
+            identifier=request.header.identifier,
+            query_response_indicator=QueryResponseValue.Reply,
+            operation_code=request.header.operation_code,
+            authoritative_answer=False,
+            truncation=False,
+            recursion_desired=request.header.recursion_desired,
+            recursion_available=False,
+            reserved=0,
+            response_code=ResponseOpcode.Refused,
+            question_count=len(request.questions),
+            answer_count=0,
+            authority_record_count=0,
+            additional_record_count=0,
+        ),
+        questions=request.questions,
+        answers=[],
+    )
+
+
 
 def handle_dns_query(known_records: list[DNSRecord], request: DNSRequest) -> DNSResponse:
     if request.header.operation_code != QueryOpcode.Query:
         return not_implemented_response_from(request=request)
 
     questions = request.questions
+    is_authoritative_for_records = is_authoritative(known_records=known_records, questions=questions)
+
+    if not is_authoritative_for_records:
+        return refused_response_from(request=request)
+
 
     answers = []
     for question in questions:
@@ -70,7 +97,7 @@ def handle_dns_query(known_records: list[DNSRecord], request: DNSRequest) -> DNS
             identifier=request.header.identifier,
             query_response_indicator=QueryResponseValue.Reply,
             operation_code=request.header.operation_code,
-            authoritative_answer=is_authoritative(known_records=known_records, questions=questions),
+            authoritative_answer=is_authoritative_for_records,
             truncation=False,
             recursion_desired=request.header.recursion_desired,
             recursion_available=False,
