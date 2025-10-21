@@ -10,7 +10,12 @@
   ],
   "files.exclude": {
     "**/Cellar/**": true,
-    "**/Frameworks/**": true
+    "**/Frameworks/**": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+
   },
   "python.defaultInterpreterPath": "pipenv",
   "python.testing.pytestArgs": ["app"],
