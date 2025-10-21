@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from app.protocol.dns_header import DNSHeader
-from app.protocol.dns_question import DNSQuestion, DNSQuestionClass, DNSQuestionType
+from app.protocol.dns_question import DNSQuestion, DNSRecordClass
+from app.protocol.dns_record_type import DNSRecordType
 
 def parse_header(starting_position: int, data: bytes) -> tuple[DNSHeader, int]:
     header_length = 12
@@ -37,8 +38,8 @@ def parse_questions(header: DNSHeader, starting_position: int, data: bytes) -> t
 
         question = DNSQuestion(
             name=name,
-            question_type=DNSQuestionType(qtype),
-            question_class=DNSQuestionClass(qclass)
+            record_type=DNSRecordType(qtype),
+            record_class=DNSRecordClass(qclass)
         )
         questions.append(question)
 
