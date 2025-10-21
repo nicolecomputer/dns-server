@@ -6,7 +6,7 @@ from app.records import DNSRecord
 from app.protocol.ip_address import IPAddress
 from app.protocol.dns_record_type import DNSRecordType
 
-def main():
+def main() -> None:
     print("Starting up Server!")
 
     known_records: list[DNSRecord] = [
