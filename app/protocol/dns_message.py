@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from app.protocol.dns_header import DNSHeader
 from app.protocol.dns_question import DNSQuestion, DNSRecordClass
 from app.protocol.dns_record_type import DNSRecordType
+from app.protocol.dns_answer import DNSAnswer
 
 def parse_header(starting_position: int, data: bytes) -> tuple[DNSHeader, int]:
     header_length = 12
@@ -48,6 +49,7 @@ def parse_questions(header: DNSHeader, starting_position: int, data: bytes) -> t
 class DNSMessage:
     header: DNSHeader
     questions: list[DNSQuestion]
+    answers: list[DNSAnswer]
 
     def to_bytes(self) -> bytes:
         result = b''
@@ -56,6 +58,9 @@ class DNSMessage:
 
         for question in self.questions:
             result += question.to_bytes()
+
+        for answer in self.answers:
+            result += answer.to_bytes()
 
         return result
 
@@ -71,6 +76,7 @@ class DNSMessage:
 
         return DNSMessage(
             header=header,
-            questions=questions
+            questions=questions,
+            answers=[]
         )
 
