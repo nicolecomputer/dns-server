@@ -26,9 +26,6 @@ def answer_dns_question(
 def is_authoritative(
     known_records: list[DNSRecord], questions: list[DNSQuestion]
 ) -> bool:
-    # Code Crafters demands that I am never the authorative domain
-    return False
-
     for question in questions:
         records = find_records(known_records, name=question.name)
         if len(records) == 0:
@@ -104,7 +101,7 @@ def handle_dns_query(
             identifier=request.header.identifier,
             query_response_indicator=QueryResponseValue.Reply,
             operation_code=request.header.operation_code,
-            authoritative_answer=is_authoritative_for_records,
+            authoritative_answer=False,  # I agree with this but codecrafters says this is what I should do
             truncation=False,
             recursion_desired=request.header.recursion_desired,
             recursion_available=False,
