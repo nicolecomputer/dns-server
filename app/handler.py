@@ -26,6 +26,9 @@ def answer_dns_question(
 def is_authoritative(
     known_records: list[DNSRecord], questions: list[DNSQuestion]
 ) -> bool:
+    # Code Crafters demands that I am never the authorative domain
+    return False
+
     for question in questions:
         records = find_records(known_records, name=question.name)
         if len(records) == 0:
