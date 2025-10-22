@@ -17,6 +17,18 @@ def main() -> None:
             time_to_live=60,
             data=IPAddress(8, 8, 8, 8),
         ),
+        DNSRecord(
+            name="abc.longassdomainname.com",
+            record_type=DNSRecordType.A,
+            time_to_live=60,
+            data=IPAddress(9, 9, 9, 9),
+        ),
+        DNSRecord(
+            name="def.longassdomainname.com",
+            record_type=DNSRecordType.A,
+            time_to_live=60,
+            data=IPAddress(12, 12, 12, 12),
+        ),
     ]
 
     print("Known Records", known_records)
