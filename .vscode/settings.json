@@ -9,6 +9,7 @@
     "**/.venv/**"
   ],
   "files.exclude": {
+    "**/.venv/**": true,
     "**/Cellar/**": true,
     "**/Frameworks/**": true,
     "**/__pycache__": true,
