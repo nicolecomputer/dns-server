@@ -22,23 +22,19 @@ def main() -> None:
     print("Known Records", known_records)
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udp_socket.bind(("127.0.0.1", 2053))
+    udp_socket.bind(("0.0.0.0", 2053))
 
     while True:
-        try:
-            buf, source = udp_socket.recvfrom(512)
+        buf, source = udp_socket.recvfrom(512)
 
-            request = DNSMessage.from_bytes(buf)
-            response = handle_dns_query(known_records=known_records, request=request)
+        request = DNSMessage.from_bytes(buf)
+        response = handle_dns_query(known_records=known_records, request=request)
 
-            udp_socket.sendto(response.to_bytes(), source)
-            print()
+        udp_socket.sendto(response.to_bytes(), source)
+        print()
 
-            if buf == b"exit\n":
-                print("Exiting\n")
-                break
-        except Exception as e:
-            print(f"Error receiving data: {e}")
+        if buf == b"exit\n":
+            print("Exiting\n")
             break
 
     print("Shutting down")
