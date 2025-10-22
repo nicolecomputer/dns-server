@@ -12,7 +12,13 @@ def main() -> None:
 
     known_records: list[DNSRecord] = [
         DNSRecord(
-            name="codecrafters.in",
+            name="codecrafters.io",
+            record_type=DNSRecordType.A,
+            time_to_live=60,
+            data=IPAddress(8, 8, 8, 8),
+        ),
+        DNSRecord(
+            name="abc.codecrafters.io",
             record_type=DNSRecordType.A,
             time_to_live=60,
             data=IPAddress(8, 8, 8, 8),
@@ -28,6 +34,36 @@ def main() -> None:
             record_type=DNSRecordType.A,
             time_to_live=60,
             data=IPAddress(12, 12, 12, 12),
+        ),
+        DNSRecord(
+            name="reddit.com",
+            record_type=DNSRecordType.A,
+            time_to_live=61,
+            data=IPAddress(151, 101, 129, 140),
+        ),
+        DNSRecord(
+            name="mail.example.com",
+            record_type=DNSRecordType.A,
+            time_to_live=61,
+            data=IPAddress(8, 8, 8, 8),
+        ),
+        DNSRecord(
+            name="example.com",
+            record_type=DNSRecordType.A,
+            time_to_live=61,
+            data=IPAddress(8, 8, 8, 8),
+        ),
+        DNSRecord(
+            name="alt1.aspmx.l.google.com",
+            record_type=DNSRecordType.A,
+            time_to_live=61,
+            data=IPAddress(8, 8, 8, 8),
+        ),
+        DNSRecord(
+            name="google.com",
+            record_type=DNSRecordType.A,
+            time_to_live=61,
+            data=IPAddress(8, 8, 8, 8),
         ),
     ]
 
