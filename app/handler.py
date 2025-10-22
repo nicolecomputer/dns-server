@@ -1,3 +1,4 @@
+from app.client.dns_client import DNSServer, request_dns_record_from
 from app.protocol.dns_answer import DNSAnswer
 from app.protocol.dns_header import (
     DNSHeader,
@@ -14,13 +15,20 @@ DNSResponse = DNSMessage
 
 
 def answer_dns_question(
-    known_records: list[DNSRecord], question: DNSQuestion
+    known_records: list[DNSRecord], server: DNSServer, question: DNSQuestion
 ) -> list[DNSAnswer]:
+    # First Check Records that we are the owner of
     records = find_records(
         known_records, name=question.name, record_type=question.record_type
     )
+    if len(records) > 0:
+        return [record.to_dns_answer() for record in records]
 
-    return [record.to_dns_answer() for record in records]
+    # TODO: Next Check cache of records we've requested in the past
+
+    # Finally use a DNS Client to check other DNS Servers
+    # TODO: Cache the results after we find them if they exist (or maybe wrap this in a caching layer???)
+    return request_dns_record_from(server=server, question=question)
 
 
 def is_authoritative(
@@ -79,7 +87,7 @@ def refused_response_from(request: DNSRequest) -> DNSResponse:
 
 
 def handle_dns_query(
-    known_records: list[DNSRecord], request: DNSRequest
+    known_records: list[DNSRecord], server: DNSServer, request: DNSRequest
 ) -> DNSResponse:
     if request.header.operation_code != QueryOpcode.Query:
         return not_implemented_response_from(request=request)
@@ -94,7 +102,9 @@ def handle_dns_query(
 
     answers = []
     for question in questions:
-        answers += answer_dns_question(known_records=known_records, question=question)
+        answers += answer_dns_question(
+            known_records=known_records, question=question, server=server
+        )
 
     return DNSResponse(
         header=DNSHeader(

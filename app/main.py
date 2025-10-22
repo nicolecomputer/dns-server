@@ -1,5 +1,6 @@
 import socket
 
+from app.client.dns_client import DNSServer
 from app.handler import handle_dns_query
 from app.protocol.dns_message import DNSMessage
 from app.protocol.dns_record_type import DNSRecordType
@@ -67,6 +68,8 @@ def main() -> None:
         ),
     ]
 
+    backup_server = DNSServer(address=IPAddress(8, 8, 8, 8), port=53)
+
     print("Known Records", known_records)
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -76,7 +79,9 @@ def main() -> None:
         buf, source = udp_socket.recvfrom(512)
 
         request = DNSMessage.from_bytes(buf)
-        response = handle_dns_query(known_records=known_records, request=request)
+        response = handle_dns_query(
+            known_records=known_records, server=backup_server, request=request
+        )
 
         udp_socket.sendto(response.to_bytes(), source)
         print()
