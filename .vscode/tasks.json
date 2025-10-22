@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run DNS Server (Auto-reload)",
+            "type": "shell",
+            "command": "pipenv",
+            "args": [
+                "run",
+                "watchmedo",
+                "auto-restart",
+                "--patterns='*.py'",
+                "--recursive",
+                "--",
+                "python",
+                "-m",
+                "app.main"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

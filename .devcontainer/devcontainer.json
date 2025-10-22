@@ -1,0 +1,31 @@
+{
+	"name": "Python 3",
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
+	"forwardPorts": [
+		2053
+	],
+	"postStartCommand": "sudo apt-get update && sudo apt-get install -y dnsutils",
+	"postCreateCommand": "pip install pipenv && pipenv install --dev",
+	"remoteEnv": {
+		"PIPENV_VENV_IN_PROJECT": "1",
+		"PIPENV_VERBOSITY": "-1"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.mypy-type-checker",
+				"ms-python.debugpy",
+				"ms-python.vscode-python-envs",
+				"charliermarsh.ruff"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "pipenv",
+				"python.terminal.activateEnvironment": true
+			}
+		}
+	}
+}

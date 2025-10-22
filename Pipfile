@@ -7,6 +7,10 @@ name = "pypi"
 
 [scripts]
 test = "pytest --no-header --no-summary -v"
+dev = "watchmedo auto-restart --patterns=*.py --recursive -- python -m app.main"
+start = "python -m app.main"
+format = "black . && isort ."
+lint = "black --check . && isort --check-only ."
 
 [packages]
 pyparsing = "~=3.0"
@@ -17,6 +21,7 @@ bitstruct = "*"
 pytest = "*"
 black = "*"
 isort = "*"
+watchdog = "*"
 
 [requires]
 python_version = "3"
